@@ -16,7 +16,7 @@ const argv = yargs(hideBin(process.argv))
 async function generateParquet(numRows:number,logPercent:number = 10): Promise<void> {
   const compression = "GZIP"; // 'GZIP' or 'SNAPPY' or 'UNCOMPRESSED'
   // Define the Parquet schema
-  const tsType = "TIMESTAMP_MICROS"; // 'INT64' or 'TIMESTAMP_MILLIS' or 'TIMESTAMP_MICROS'
+  const tsType = "INT64"; // 'INT64' or 'TIMESTAMP_MILLIS' or 'TIMESTAMP_MICROS'
   const schema = new ParquetSchema({
     ts: { type: tsType, compression },
     temp: { type: "DOUBLE", compression },
@@ -36,7 +36,7 @@ async function generateParquet(numRows:number,logPercent:number = 10): Promise<v
   let temp = 20 + Math.random() * (55 - 20);
   for (let i = 0; i < numRows; i++) {
     // Modify the temperature with a small random variation
-    temp += (Math.random() - 0.5) * 0.15;
+    temp += (Math.random() - 0.5) * 0.05;
     // Ensure the temperature remains within the range [20, 55]
     temp = Math.max(20, Math.min(55, temp));
     await writer.appendRow({ ts, temp });
